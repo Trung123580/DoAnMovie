@@ -78,6 +78,15 @@ a {
     background: linear-gradient(280deg, rgba(0, 0, 0, 0.31985294117647056) 4%, rgba(1, 22, 0, 0.7792366946778712) 96%);
   }
 }
+.myScroll {
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-track {
+    border-radius: 3px;
+    background: #52525b;
+  }
+}
 .wrapper-banner {
   @include mobile-table {
     background: transparent !important ;
@@ -140,4 +149,39 @@ a {
   font-size: 16px; /* Adjust the font size */
   outline: none;
   box-shadow: inset 4px 5px 5px rgba(0, 0, 0, 0.4);
+}
+@media (min-width: 1248px) and (max-width: 1284px) {
+  .my-col {
+    grid-column: span 1 / span 1;
+  }
+  .my-col-2 {
+    grid-column: span 4 / span 4;
+  }
+}
+@media (min-width: 984px) and (max-width: 1023px) {
+  .my-col {
+    grid-column: span 1 / span 1;
+  }
+  .my-col-2 {
+    grid-column: span 4 / span 4;
+  }
+}
+
+.btn-disable {
+  &.lock {
+    overflow: hidden;
+    position: relative;
+    &::after {
+      content: 'vip';
+      position: absolute;
+      top: 0;
+      right: 0;
+      font-size: 0.7rem;
+      background: #ff0000;
+      width: 50%;
+      border-radius: inherit;
+      height: 60%;
+      width: 35%;
+    }
+  }
 }

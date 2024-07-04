@@ -52,6 +52,7 @@ const listFilter = [
   { name: 'Đang diễn ra', path: 'ongoing' },
   { name: 'Hoàn Thành', path: 'completed' },
   { name: 'Thuyết Minh', path: 'Thuy%E1%BA%BFt%20Minh' },
+  { name: 'Lồng Tiếng', path: 'L%E1%BB%93ng%20Ti%E1%BA%BFng' },
 ];
 export const filterNameMovie = (text: string) => {
   return listFilter.find(({ path }) => path === text)?.name || text;
@@ -91,7 +92,23 @@ export const formatViToEN = (date: string) => {
   // const findDate: any = tableDate.find(({ text }) => text === firstDate);
   return lastDate;
 };
-
+export const formatDate = (date: string) => {
+  const formatMoment = dayjs(date).format('dddd, DD/MM/YYYY - HH:mm');
+  const dateData = formatMoment.split(',');
+  const firstDate = dateData[0];
+  const lastDate = dateData[dateData.length - 1];
+  const tableDate = [
+    { text: 'Monday', renderText: 'Thứ 2' },
+    { text: 'Tuesday', renderText: 'Thứ 3' },
+    { text: 'Wednesday', renderText: 'Thứ 4' },
+    { text: 'Thursday', renderText: 'Thứ 5' },
+    { text: 'Friday', renderText: 'Thứ 6' },
+    { text: 'Saturday', renderText: 'Thứ 7' },
+    { text: 'Sunday', renderText: 'Chủ Nhật' },
+  ];
+  const findDate: any = tableDate.find(({ text }) => text === firstDate);
+  return { ...findDate, lastDate: lastDate };
+};
 export const convertJson = (value: any) => {
   var parsedJSON = JSON?.parse(value);
   return parsedJSON;
@@ -117,4 +134,7 @@ export const extractNumber = (currencyString: string) => {
   const number = parseFloat(numericString.replace(/\./g, ''));
 
   return number;
+};
+export const formatNumber = (num: number) => {
+  return num ? num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.') : '0';
 };

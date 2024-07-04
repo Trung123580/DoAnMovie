@@ -11,16 +11,22 @@ type navTypes = {
   onToggleOpenMenuCategory: any;
   convertHeader: any;
   isMobile: boolean;
+  onShowPopup: func;
 };
 type MenuGenresAndRegions = {
-  category: string[] | number[] | null;
-  regions: string[] | number[] | null;
-  typeMovie: string[] | number[] | null;
+  category: string[] | number[] | any[] | null;
+  regions: string[] | number[] | any[] | null;
+  typeMovie: string[] | number[] | any[] | null;
+  topMovies: string[] | number[] | any[] | null;
 };
 type popup = {
   sharePopup: string;
   trailerPopup: string;
   packages: string;
+  info: string;
+  popupYesNo: string;
+  logins: string;
+  search: string;
 };
 
 type comment = [
@@ -49,3 +55,6 @@ type itemComment = {
   repComments: any;
   likes: number;
 };
+
+type PayMoMo = { method: string; price: string; fullname: string; type: number; title: string };
+type PayItem = { type: string; deadline: number };

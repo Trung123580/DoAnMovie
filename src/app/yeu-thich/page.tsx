@@ -1,7 +1,10 @@
 import FaVouRite from '@/components/FaVouRite';
-import React from 'react';
-
-const page = () => {
+const page = async () => {
+  await new Promise((resolve) =>
+    setTimeout(() => {
+      resolve(true);
+    }, 1000)
+  );
   return <FaVouRite />;
 };
 export default page;

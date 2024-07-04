@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useMemo, useState } from 'react';
-import { navHeader } from '@/utils/constants';
+import { navHeader, popup } from '@/utils/constants';
 import Image from 'next/image';
 import Nav from '@/components/Nav';
 import Link from 'next/link';
@@ -14,7 +14,8 @@ const Header = () => {
   const {
     user,
     isAuthenticated,
-    headerData: { category, regions, typeMovie },
+    headerData: { category, regions, typeMovie, topMovies },
+    handle: { onShowPopup },
   }: any = useApp();
   const pathName = usePathname();
   const convertHeader = useMemo(() => {
@@ -25,6 +26,8 @@ const Header = () => {
         ? { ...item, category: regions }
         : item.path === '/loai-phim'
         ? { ...item, category: typeMovie }
+        : item.path === '/top-phim'
+        ? { ...item, category: topMovies }
         : item;
     });
   }, [category, regions, typeMovie]);
@@ -82,6 +85,7 @@ const Header = () => {
             isAuthenticated={isAuthenticated}
             convertHeader={convertHeader}
             isMobile={isMobile}
+            onShowPopup={() => onShowPopup(popup.search)}
           />
         </div>
       </div>

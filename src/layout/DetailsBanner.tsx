@@ -1,7 +1,7 @@
 import BoxBG from '@/components/BoxBG';
 import BoxSolid from '@/components/BoxSolid';
 import Image from 'next/image';
-import { IoShareSocial, LuHeart, LuHeartCrack, MdOutlineDateRange, MdTimelapse, RiGlobalLine } from '@/utils/icons';
+import { FaEye, IoShareSocial, LuHeart, LuHeartCrack, MdOutlineDateRange, MdTimelapse, RiGlobalLine } from '@/utils/icons';
 import Button from '@/components/Button';
 import Link from 'next/link';
 import { getIdVideo } from '@/utils/helpers';
@@ -44,6 +44,10 @@ const DetailsBanner = ({
             </div>
           </div>
           <div className='*:flex-basis *:flex *:flex-center *:gap-x-1 flex items-center *:items-center gap-x-3 flex-wrap'>
+            <div className='-tracking-tighter flex items-center '>
+              <FaEye className='text-primary' />
+              <span>{data?.totalViews}</span>
+            </div>
             <div className='-tracking-tighter flex items-center '>
               <MdTimelapse className='text-primary' />
               <span>{data?.episode_time}</span>

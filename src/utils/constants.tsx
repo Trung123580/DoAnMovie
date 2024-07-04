@@ -23,6 +23,10 @@ export const popup: popup = {
   sharePopup: 'sharePopup',
   trailerPopup: 'trailerPopup',
   packages: 'packages',
+  info: 'info',
+  popupYesNo: 'popupYesNo',
+  logins: 'logins',
+  search: 'search',
 };
 
 export const typeToast = {
@@ -47,22 +51,33 @@ export const comboList = [
   {
     id: uuid(),
     title: '1 tháng',
-    discountMoney: '200.000.000 vnd',
-    desc: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus fugiat aliquam laboriosam architecto sunt enim? Minus natus dignissimos error architecto facere dolor maxime. Itaque ab quisquam harum at accusamus tempora.',
-    defaultMoney: '300.000.000 vnd',
+    discountMoney: '200.000',
+    desc: 'Trải nghiệm xem phim không giới hạn trong vòng 1 tháng. Đăng ký ngay để thỏa sức tận hưởng những bộ phim bom tấn và các chương trình yêu thích mà không lo bị gián đoạn.',
+    defaultMoney: '300.000',
+    type: 1,
   },
   {
     id: uuid(),
     title: '7 tháng',
-    discountMoney: '1.200.000.000 vnd',
-    desc: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus fugiat aliquam laboriosam architecto sunt enim? Minus natus dignissimos error architecto facere dolor maxime. Itaque ab quisquam harum at accusamus tempora.',
-    defaultMoney: '1.700.000.000 vnd',
+    discountMoney: '1.200.000',
+    desc: 'Xem phim thỏa thích trong suốt 7 tháng với mức giá ưu đãi. Gói dịch vụ này mang đến cho bạn cơ hội thưởng thức hàng nghìn bộ phim và chương trình giải trí hấp dẫn mà không phải lo lắng về chi phí.',
+    defaultMoney: '1.700.000',
+    type: 2,
   },
   {
     id: uuid(),
     title: '1 năm',
-    discountMoney: '2.000.000.000 vnd',
-    desc: 'Lorem ipsum dolor sit amet,adipisicing elit Lorem ipsum, dolor sit amet consectetur adipisicing elit. Reprehenderit fugit maiores distinctio aliquid perferendis iusto harum porro odio voluptatem at soluta exercitationem nostrum dicta ratione hic recusandae assumenda, sit nihil.. Delectus fugiat aliquam laboriosam architecto sunt enim? Minus natus dignissimos error architecto facere dolor maxime. Itaque ab quisquam harum at accusamus tempora.',
-    defaultMoney: '3.300.000.000 vnd',
+    discountMoney: '2.000.000',
+    desc: 'Đăng ký ngay gói 1 năm để có trải nghiệm giải trí tuyệt vời nhất. Xem phim không giới hạn trong suốt 12 tháng, cùng với nhiều ưu đãi và tính năng đặc biệt chỉ dành riêng cho bạn.',
+    defaultMoney: '3.300.000',
+    type: 3,
+  },
+  {
+    id: uuid(),
+    title: '1 phút',
+    discountMoney: '2.000',
+    desc: 'Thử ngay gói xem phim 1 phút để cảm nhận chất lượng dịch vụ của chúng tôi. Đây là lựa chọn lý tưởng cho những ai muốn trải nghiệm nhanh chóng và tiện lợi.',
+    defaultMoney: '3.000',
+    type: 4,
   },
 ];

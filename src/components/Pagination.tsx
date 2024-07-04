@@ -17,7 +17,7 @@ function Pagination({ totalPages, numberPage, searchPage, hiddenPagination, tota
         {Array(totalPages)
           .fill(0)
           .map((_item, index) => {
-            if (index >= hiddenPagination && index < totalPagination) {
+            if (searchPage - 4 < index && index >= hiddenPagination && index < totalPagination) {
               return (
                 <Button
                   key={index}

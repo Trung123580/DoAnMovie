@@ -1,6 +1,8 @@
 import axios from 'axios';
+import dayjs from 'dayjs';
 
 const BASE_API = process.env.NEXT_PUBLIC_BASE_API;
+const BASE_API_BANK = process.env.NEXT_PUBLIC_BASE_API_BANK;
 export const getCatMovie = async (cat: string, page: number = 1) => {
   try {
     const response = await axios.get(`${BASE_API}/the-loai/${cat}`, {
@@ -157,7 +159,6 @@ export const deleteComment = async (id: number) => {
         id: id,
       },
     });
-    console.log(response.status);
     if (response.status === 201) {
       return true;
     } else {
@@ -278,15 +279,29 @@ export const addLikesReplyComment = async (id: number, idUser: string) => {
     return false;
   }
 };
-
+// phim lien quan :cat/:number
+export const getRelatedMovies = async (cat: number, count: number) => {
+  try {
+    const response = await axios.get(`${BASE_API}/lien-quan/${cat}/${count}`);
+    if (response.status === 200) {
+      return response.data.data;
+    } else {
+      throw new Error('Data not found!');
+    }
+  } catch (error) {
+    return false;
+  }
+};
 //
-export const paymentMomo = async ({ method, price, fullname }: { method: string; price: number; fullname: string }) => {
+export const paymentMomo = async ({ method, price, fullname, type, title }: PayMoMo) => {
   const body = {
     orderInfo: 'Thanh toán MOMO',
     method: method,
     requestType: 'payWithMethod',
-    price: price.toString(),
+    price: price,
     name: fullname,
+    type: type,
+    title: title,
   };
   try {
     const response = await axios.post(`${BASE_API}/payment`, body);
@@ -306,6 +321,148 @@ export const transactionMomo = async ({ orderId }: { orderId: string }) => {
   };
   try {
     const response = await axios.post(`${BASE_API}/transaction-status`, body);
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      throw new Error('Data not found!');
+    }
+  } catch (error) {
+    return [];
+  }
+};
+
+// pay vnPay
+export const paymentVnPay = async ({ method, price, fullname, type, title }: any) => {
+  const ipAddr = await getIpAddress(); // Function to get the user's IP address
+  const orderId = dayjs().format('DDHHmmss');
+  const locale = 'vn'; // You can set this based on user preference or other logic
+  const body = {
+    orderInfo: 'Thanh toán MOMO',
+    method: method,
+    requestType: 'payWithMethod',
+    price: price,
+    name: fullname,
+    type: type,
+    title: title,
+    language: locale,
+    orderId: orderId,
+    amount: price,
+    bankCode: method, // Assuming method is bankCode, adjust as necessary
+    ipAddr: ipAddr,
+  };
+
+  try {
+    const response = await axios.post(`${BASE_API_BANK}/create_payment_url`, body, {
+      headers: {
+        'Access-Control-Allow-Origin': 'http://localhost:8888',
+      },
+    });
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      throw new Error('Data not found!');
+    }
+  } catch (error) {
+    return [];
+  }
+};
+
+const getIpAddress = async () => {
+  try {
+    const response = await axios.get('https://api.ipify.org?format=json');
+    return response.data.ip;
+  } catch (error) {
+    console.error('Unable to get IP address:', error);
+    return '127.0.0.1'; // Fallback to localhost
+  }
+};
+export const getViews = async ({ slug }: { slug: string }) => {
+  try {
+    const response = await axios.get(`${BASE_API}/views`, {
+      params: { slug },
+    });
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      throw new Error('Data not found!');
+    }
+  } catch (error) {
+    return 0;
+  }
+};
+export const updateViews = async ({ slug }: { slug: string }) => {
+  try {
+    const response = await axios.put(`${BASE_API}/views`, null, { params: { slug } });
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      throw new Error('Data not found!');
+    }
+  } catch (error) {
+    return 0;
+  }
+};
+
+// top-phim
+export const getTopMovies = async (page: number = 1) => {
+  try {
+    const response = await axios.get(`${BASE_API}/view_sort`, {
+      params: {
+        page: page,
+        // time: new Date().getTime(),
+      },
+    });
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      throw new Error('Data not found!');
+    }
+  } catch (error) {
+    return [];
+  }
+};
+export const getTopTypeMovies = async (type: string, slug: string, page: number = 1) => {
+  try {
+    const response = await axios.get(`${BASE_API}/view_sort_loai_phim/${type}/${slug}`, {
+      params: {
+        page: page,
+      },
+    });
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      throw new Error('Data not found!');
+    }
+  } catch (error) {
+    return [];
+  }
+};
+// // toop-quocgia
+export const getTopMoviesRegions = async (slug: string, page: number = 1) => {
+  try {
+    const response = await axios.get(`${BASE_API}/view_sort_quoc-gia/${slug}`, {
+      params: {
+        page: page,
+      },
+    });
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      throw new Error('Data not found!');
+    }
+  } catch (error) {
+    return [];
+  }
+};
+// // top-loaiphim
+export const getTopMoviesCategory = async (cat: string, page: number = 1) => {
+  try {
+    const response = await axios.get(`${BASE_API}/the-loai/${cat}`, {
+      params: {
+        page: page,
+        // time: new Date().getTime(),
+      },
+    });
     if (response.status === 200) {
       return response.data;
     } else {

@@ -1,11 +1,12 @@
 'use client';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { IoIosSearch, IoMenu, LuUserSquare } from '@/utils/icons';
 import Image from 'next/image';
 import Button from '@/components/Button';
 import { filterNameMovie } from '@/utils/helpers';
 import { v4 as uuid } from 'uuid';
+import React from 'react';
 const Nav = ({
   onToggleNavbar,
   isShowNavBar,
@@ -15,8 +16,10 @@ const Nav = ({
   openMenuCategory,
   convertHeader,
   isMobile,
+  onShowPopup,
 }: navTypes) => {
   const pathName = usePathname();
+  const router = useRouter();
   return (
     <nav className='flex items-center justify-center gap-x-2 '>
       <ul
@@ -33,7 +36,7 @@ const Nav = ({
                   onToggleOpenMenuCategory(path);
                   return;
                 }
-                if (isMobile) {
+                if (isMobile && isShowNavBar) {
                   onToggleNavbar();
                 }
               }}
@@ -44,17 +47,25 @@ const Nav = ({
               }`}
               content={name}
               // href={category.length && isShowNavBar ? '' : path}
-              icon={isShowNavBar && isMobile ? <Icon fontSize={23} className='text-primary' /> : ''}
+              icon={isShowNavBar ? <Icon fontSize={23} className='text-primary' /> : ''}
             />
             {!!category.length && (
               <ul
                 className={`${isShowNavBar && `!static !grid-cols-2 !w-full ${openMenuCategory === path ? '!grid' : '!hidden'}`} ${
                   path === '/loai-phim' ? '!grid-cols-2 !-left-[90%]' : ''
-                } group-hover:grid grid dropdown-menu absolute duration-300 grid-cols-4 top-full -left-[180%] z-50 text-sm text-white bg-blur`}>
+                } ${
+                  path === '/top-phim' ? '!py-0' : ''
+                } group-hover:grid grid dropdown-menu absolute duration-300 !px-4 grid-cols-4 top-full -left-[180%] z-50 text-sm text-white bg-blur`}>
                 {category.map((item: any, index: number) => (
-                  <li key={uuid()} className='cursor-pointer capitalize'>
+                  <li
+                    key={uuid()}
+                    className={`cursor-pointer capitalize relative group/item w-full ${path === '/top-phim' ? 'py-2' : ''}`}
+                    onClick={() => {
+                      if (isShowNavBar) onToggleNavbar();
+                    }}>
                     <Link
-                      className='hover:text-primary duration-300 text-base'
+                      className={`hover:text-primary  w-full inline-block duration-300 text-base`}
+                      prefetch={true}
                       href={
                         path === '/loai-phim'
                           ? `/loai-phim/${
@@ -62,12 +73,39 @@ const Nav = ({
                             }`
                           : path === '/the-loai'
                           ? `/the-loai/${item.cate_slug}`
+                          : path === '/top-phim' && index === 0
+                          ? '/top-phim/top-phim'
+                          : path === '/top-phim'
+                          ? `#`
                           : `/quoc-gia/${item.slug}`
-                      }
-                      onClick={() => {
-                        if (isShowNavBar) onToggleNavbar();
-                      }}>
+                      }>
                       {item.name || filterNameMovie(item.type)}
+                      {!!item.menuLv2?.length && (
+                        <ul
+                          className={`${
+                            isShowNavBar
+                              ? 'static overflow-y-auto max-h-[30vh]'
+                              : 'absolute text-center overflow-y-auto overflow-x-hidden  max-h-[50vh]'
+                          }  hidden w-auto top-full  left-[-25%] group-hover/item:block  bg-blur `}>
+                          {item.menuLv2.map((it: any, id: number) => (
+                            <li className='pt-1 ' key={uuid()}>
+                              <Link
+                                href={
+                                  item.path === '/loai-phim'
+                                    ? `/top-phim/loai-phim${
+                                        id <= 1 ? `/type/${it.type}` : id >= 2 && id <= 4 ? `/language/${it.type}` : `/status/${it.type}`
+                                      }`
+                                    : item.path === '/the-loai'
+                                    ? `/top-phim/the-loai/${it.cate_slug}`
+                                    : `/top-phim/quoc-gia/${it.slug}`
+                                }
+                                className='hover:!text-primary !text-white   duration-300 text-nowrap '>
+                                {it.name || filterNameMovie(it.type)}
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
                     </Link>
                   </li>
                 ))}
@@ -77,7 +115,7 @@ const Nav = ({
         ))}
       </ul>
       {isShowNavBar && <div className='fixed w-full z-20 h-full bg-blur left-0 calc-width lg:hidden top-0' onClick={onToggleNavbar}></div>}
-      <div className='text-black md:ms-8 md:mr-0 cursor-pointer hover:opacity-90 flex '>
+      <div className='text-black md:ms-8 md:mr-0 cursor-pointer hover:opacity-90 flex' onClick={onShowPopup}>
         <abbr title='Tìm kiếm'>
           <IoIosSearch className='w-[34px] h-[30px] text-primary' />
         </abbr>
@@ -96,7 +134,7 @@ const Nav = ({
           </abbr>
         </Link>
       )}
-      <Link href='/yeu-thich'>
+      <Link href='/yeu-thich' className='cursor-pointer'>
         <abbr title='Yêu thích'>
           <svg
             xmlns='http://www.w3.org/2000/svg'

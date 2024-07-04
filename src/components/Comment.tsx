@@ -64,15 +64,6 @@ const Comments = (props: {
     // sort
     onChangeSortComment,
   } = props;
-  // console.log('date', formatViToEN(new Date()));
-  // data,
-  // user,
-  // onAddComment,
-  // isPending,
-  // idShowPopupComment,
-  // onShowPopupComment,
-  console.log(data);
-
   return (
     <div className='mt-10'>
       <div className='flex justify-between items-center'>

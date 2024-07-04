@@ -1,5 +1,6 @@
 'use client';
 import { useCallback, useMemo, useRef } from 'react';
+import { Autoplay } from '@/utils/moduleSwiper';
 import CardProduct from '@/components/CardProduct';
 import Loading from '@/components/Loading';
 import TitlePath from '@/components/TitlePath';
@@ -60,11 +61,11 @@ const HomeApp = ({ dataSlides, data }: { dataSlides: any; data: any }) => {
                 <TitlePath title={renderTitle[index][key]} onClickNext={() => handleNext(key)} onClickPrev={() => handlePrev(key)} />
                 <Swiper
                   ref={ref}
-                  // autoplay={{
-                  //   delay: 7000,
-                  //   disableOnInteraction: false,
-                  //   pauseOnMouseEnter: true,
-                  // }}
+                  autoplay={{
+                    delay: index === 0 ? 5000 : index === 1 ? 3000 : 6000,
+                    disableOnInteraction: false,
+                    pauseOnMouseEnter: true,
+                  }}
                   breakpoints={{
                     200: {
                       slidesPerView: 2,
@@ -100,8 +101,7 @@ const HomeApp = ({ dataSlides, data }: { dataSlides: any; data: any }) => {
                   rewind={true}
                   noSwiping={true}
                   slidesPerView={4}
-                  // modules={[Autoplay]}
-                >
+                  modules={[Autoplay]}>
                   {data[key].map((movie: any) => (
                     <SwiperSlide key={movie.id}>
                       <CardProduct
@@ -118,7 +118,7 @@ const HomeApp = ({ dataSlides, data }: { dataSlides: any; data: any }) => {
                     content={`Xem Tất Cả`}
                     icon={<MdNavigateNext className='h-5 w-6' />}
                     onClick={() => null}
-                    href={`the-loai/${data[key][0].cate_slug}`}
+                    href={`the-loai/${data[key][0]?.cate_slug}`}
                   />
                 </div>
               </div>

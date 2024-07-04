@@ -17,7 +17,7 @@ export default function Button({
 }) {
   const CheckLink = href ? Link : 'button';
   return (
-    <CheckLink disabled={disabled} href={href} className={className} type='submit' onClick={onClick}>
+    <CheckLink disabled={disabled} href={href} className={`${className} btn-disable`} type='submit' onClick={onClick}>
       {icon} {content}
     </CheckLink>
   );

@@ -8,16 +8,17 @@ const config: Config = {
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
-    extend: {},
-    colors: {
-      black: '#000000f2',
-      white: '#fff',
-      primary: 'rgb(228, 216, 4)',
-      overlay: 'rgb(17 16 16)',
-      blur: 'rgba(0, 0, 0, 0.5)',
-      transparent: 'transparent',
-      borderColor: '#ffffff1a',
-      red: '#ff0000',
+    extend: {
+      colors: {
+        black: '#000000f2',
+        white: '#fff',
+        primary: 'rgb(228, 216, 4)',
+        overlay: 'rgb(17 16 16)',
+        blur: 'rgba(0, 0, 0, 0.5)',
+        transparent: 'transparent',
+        borderColor: '#ffffff1a',
+        red: '#ff0000',
+      },
     },
     container: {
       center: true,
