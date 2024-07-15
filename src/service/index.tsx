@@ -472,3 +472,37 @@ export const getTopMoviesCategory = async (cat: string, page: number = 1) => {
     return [];
   }
 };
+
+// search
+export const getSearchMovies = async (query: string, page: number = 1) => {
+  try {
+    const response = await axios.get(`${BASE_API}/search/${query}`, {
+      params: {
+        page: page,
+      },
+    });
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      throw new Error('Data not found!');
+    }
+  } catch (error) {
+    return [];
+  }
+};
+export const getDirector = async (id: string) => {
+  try {
+    const response = await axios.get(`${BASE_API}/data-dao-dien`, {
+      params: {
+        id: id,
+      },
+    });
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      throw new Error('Data not found!');
+    }
+  } catch (error) {
+    return [];
+  }
+};

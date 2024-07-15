@@ -16,7 +16,7 @@ const FaVouRite = () => {
           <div className='w-3/4 opacity-70'>
             <Image src='/images/logo.jpg' className='w-full h-full object-contain ' height={1000} width={1000} alt='logo' />
           </div>
-          <h1 className='text-2xl mt-5 lg:mt-7 capitalize md:text-4xl font-bold font-VarelaRound'>chưa có phim yêu thích</h1>
+          <h1 className='text-2xl mt-5 lg:mt-7 capitalize md:text-4xl font-bold font-VarelaRound'>( chưa có phim yêu thích )</h1>
         </div>
       </div>
     );

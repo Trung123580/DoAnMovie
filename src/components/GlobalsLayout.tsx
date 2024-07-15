@@ -47,7 +47,7 @@ const GlobalsLayout = ({ children }: Readonly<{ children: React.ReactNode }>) =>
       setValueVoice(value);
       if (value) {
         onShowPopup();
-        router.push(`search-result?query=${value}`);
+        router.push(`/search-result?query=${value}`);
       }
       recognitionRef.current?.stop();
     };
@@ -82,11 +82,15 @@ const GlobalsLayout = ({ children }: Readonly<{ children: React.ReactNode }>) =>
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const value = formData.get('search');
-    if (value) {
+    if (String(value).length < 3 && String(value).length > 0) {
+      inputSearchRef.current?.focus();
+      onShowToast('Vui lòng nhập 3 ký tự trở lên', typeToast.error);
+      return;
+    }
+    if (String(value).length >= 3) {
       setValueVoice('');
       onShowPopup();
-      router.push(`search-result?query=${value || valueVoice}`);
-      return;
+      router.push(`/search-result?query=${value || valueVoice}`);
     } else {
       inputSearchRef.current?.focus();
       onShowToast('chưa nhập từ khóa search', typeToast.error);
@@ -342,7 +346,7 @@ const GlobalsLayout = ({ children }: Readonly<{ children: React.ReactNode }>) =>
               <div className={`-z-10 absolute w-full h-full scale-[1] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rotate-12`}>
                 <Image src='/images/logo.jpg' className='w-full h-full object-contain  opacity-50' height={1000} width={1000} alt='logo' />
               </div>
-              <div className='relative bg-[#18181b] rounded-lg py-5 px-4 w-[90vw] max-w-max min-w-[60vw]'>
+              <div className='relative bg-[#18181b] rounded-lg py-5 px-4 w-full md:w-[90vw] md:max-w-max min-w-[60vw]'>
                 <form method='GET' onSubmit={handleSearchForm} className='flex items-center border-b border-primary'>
                   <div className='w-full flex-1'>
                     <input

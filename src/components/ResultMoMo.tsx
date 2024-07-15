@@ -10,6 +10,8 @@ import { useRouter } from 'next/navigation';
 
 const ResultMoMo = ({ data }: any) => {
   const router = useRouter();
+  console.log(data);
+
   const {
     currentUser,
     handle: { onAddPayHistory },
@@ -19,13 +21,16 @@ const ResultMoMo = ({ data }: any) => {
     // Initial timestamp
     const type = data.type;
     const timestamp = data.lastUpdated;
+    console.log(data.lastUpdated);
+    console.log(new Date().valueOf());
+
     const date = dayjs(timestamp);
+
     if (Number(type) === 1) {
       // Add one month
       const datePlusOneMonth = date.add(1, 'month'); // add 1thang
       dateRef.current = datePlusOneMonth.valueOf();
     }
-
     if (Number(type) === 2) {
       // Add seven months
       const datePlusSevenMonths = date.add(7, 'month'); // add 7thg
@@ -42,11 +47,16 @@ const ResultMoMo = ({ data }: any) => {
       const datePlusOneMonth = date.add(1, 'minute'); // add 1 phut
       dateRef.current = datePlusOneMonth.valueOf();
     }
-    const payAt = dateRef.current;
-    (async () => {
-      await onAddPayHistory(data.type, currentUser, payAt);
-    })();
-  }, [currentUser, data]);
+  }, [data]);
+  useEffect(() => {
+    if (data?.lastUpdated) {
+      const currentDate = new Date();
+      const nextMonthDate = new Date(currentDate.setMonth(currentDate.getMonth() + 1)).valueOf();
+      (async () => {
+        await onAddPayHistory(data.type, currentUser, Number(nextMonthDate));
+      })();
+    }
+  }, [data?.lastUpdated, currentUser]);
   const infoPay = comboList.find(({ type }) => type === Number(data.type));
   const datePackage = formatDate(dayjs(dateRef.current).format());
   return (

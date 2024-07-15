@@ -6,7 +6,6 @@ const page = async ({ params }: { params: { slug: string } }) => {
   return (
     <Suspense fallback={<Loading />}>
       <TopMovies slug={(slug as any) ?? []} />
-      null
     </Suspense>
   );
 };

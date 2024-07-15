@@ -14,6 +14,7 @@ import {
   getCategoryAndRegions,
   getComments,
   getDetailsMovie,
+  getDirector,
   getEpisodesMovie,
   getRelatedMovies,
   getViews,
@@ -95,6 +96,7 @@ const Details = ({ slug, dataComment }: { slug: string; dataComment: comment }) 
         getCategoryAndRegions('data-quoc-gia'),
         getViews({ slug }),
       ]);
+      if (!response.data?.length) return;
       const detailValue = response.data[numberPage.zero];
       setDataDetailMovie({
         ...detailValue,
@@ -114,6 +116,7 @@ const Details = ({ slug, dataComment }: { slug: string; dataComment: comment }) 
   // call episodes
   // phim le type single
   // phim tap series
+  console.log(dataDetailMovie);
   useEffect(() => {
     if (dataDetailMovie && currentUser) onAddHistory(dataDetailMovie, currentUser);
   }, [dataDetailMovie, currentUser, slug]);
@@ -600,14 +603,6 @@ const Details = ({ slug, dataComment }: { slug: string; dataComment: comment }) 
     onChangeSortComment: handleChangeSortComment,
   };
   if (!dataDetailMovie) return;
-
-  // -----------------------
-  //  <div className='border border-primary '>
-  //               content => click khi chua mua goi hay dang nhap => tap 3 do len
-  //               <Button content={'mua gói xem phim'} onClick={() => onShowPopup(popup.packages)} />
-  //             </div>
-  //             tao danh sack nut dang nhap khi cua login
-  // ----------------------------------------------------------------
   return (
     <>
       <DetailsBanner

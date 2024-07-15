@@ -4,7 +4,7 @@ import CardHistory from '@/components/CardHistory';
 import TitlePath from '@/components/TitlePath';
 import { useApp } from '@/context/ContextProvider';
 import { comboList, popup } from '@/utils/constants';
-import { extractNumber, formatCurrency } from '@/utils/helpers';
+import { extractNumber, formatCurrency, formatViToEN } from '@/utils/helpers';
 import dayjs from 'dayjs';
 import Image from 'next/image';
 
@@ -21,6 +21,8 @@ const UserInfo = () => {
   const isShowPay = checkPay.length;
   const timeOut = checkPay[0]?.deadline - currentDate;
   const daysRemaining = Math.ceil(timeOut / (1000 * 60 * 60 * 24));
+  console.log(formatViToEN(`${daysRemaining}`));
+
   const currentPackage = comboList.find(({ type }) => type === Number(checkPay[0]?.type));
 
   return (
@@ -105,9 +107,9 @@ const UserInfo = () => {
 
           <div className={`px-1 ${!isShowPay ? 'py-4 ' : 'row-span-3'}`}>
             <div className='col-span-2'>
-              <>
-                <TitlePath className={`!pt-0 !mb-3`} title={'lịch sử xem phim'} noSlide={true} onClickNext={() => null} onClickPrev={() => null} />
-                {!!isCheckHistoryMovie.length && (
+              {!!isCheckHistoryMovie.length && (
+                <>
+                  <TitlePath className={`!pt-0 !mb-3`} title={'lịch sử xem phim'} noSlide={true} onClickNext={() => null} onClickPrev={() => null} />
                   <div className='flex flex-col gap-y-3 md:gap-y-5 myScroll overflow-auto h-[40vh] sm:h-[60vh] md:h-[70vh]'>
                     {currentUser.historyMovie.map((movie: any) => (
                       <CardHistory
@@ -120,8 +122,8 @@ const UserInfo = () => {
                       />
                     ))}
                   </div>
-                )}
-              </>
+                </>
+              )}
             </div>
           </div>
         </div>

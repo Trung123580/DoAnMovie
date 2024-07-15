@@ -376,7 +376,11 @@ const ContextProvider = ({
       type: type,
       deadline: payAt ?? 0,
     };
+    console.log(payAt);
+
     const userDoc = doc(db, 'users', user?.uid);
+    console.log(currentUser);
+
     if (currentUser) {
       await updateDoc(userDoc, {
         historyPay: arrayUnion({

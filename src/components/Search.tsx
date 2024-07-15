@@ -4,8 +4,9 @@ import CardProduct from '@/components/CardProduct';
 import TitlePath from '@/components/TitlePath';
 import { useApp } from '@/context/ContextProvider';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { getCatMovie } from '@/service';
+import { getCatMovie, getSearchMovies } from '@/service';
 import Pagination from '@/components/Pagination';
+import Button from '@/components/Button';
 enum numberPage {
   zero,
   one,
@@ -22,6 +23,7 @@ const Search = ({ query }: { query: string }) => {
   const router = useRouter();
   const pathName = usePathname();
   const searchPage: number | null = Number(searchParams.get('page') ?? numberPage.one);
+  console.log(query);
   const {
     currentUser,
     handle: { onToggleMovie, onLoading },
@@ -33,13 +35,17 @@ const Search = ({ query }: { query: string }) => {
     (async () => {
       onLoading(true);
       if (dataNewMovie.length) setDataNewMovie([]);
-      //   const response = await getCatMovie(query, Number(searchPage));
-      //   setDataNewMovie(response?.data || []);
-      //   setTotalPages(Number(response.totalPages));
-      //   handleScrollToTop();
+      const response = await getSearchMovies(query, Number(searchPage));
+      setDataNewMovie(response?.data || []);
+      console.log(response);
+
+      setTotalPages(Number(response.totalPages));
+      handleScrollToTop();
       onLoading(false);
     })();
   }, [searchPage, query]);
+  console.log(searchPage);
+
   const handlePrevPage = () => {
     if (searchPage === numberPage.one) return;
     if (totalPagination !== numberPage.three) setTotalPagination(totalPagination - numberPage.one);
@@ -66,11 +72,25 @@ const Search = ({ query }: { query: string }) => {
     onPrevPage: handlePrevPage,
     onNextPage: handleNextPage,
   };
+  if (!dataNewMovie.length) {
+    return (
+      <div className='container '>
+        <div className='h-[70vh] flex items-center justify-center flex-col'>
+          <h1 className='text-base md:text-2xl font-semibold text-primary capitalize'>(không tìm thấy phim / chưa cập nhập)</h1>
+          <Button
+            className='translate-y-3 text-center group-hover:-translate-y-0 hover:bg-primary hover:text-black hover:border-white duration-300 bg-blur py-2.5 px-6 rounded-full text-sm text-black font-semibold leading-none border-2 border-primary text-white w-36'
+            content={'Quay lại'}
+            onClick={() => router.replace('/')}
+          />
+        </div>
+      </div>
+    );
+  }
   return (
     <div className='container'>
       <TitlePath title={`Kết quả tìm kiếm ${query}`} noSlide={true} onClickNext={() => null} onClickPrev={() => null} />
       <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4  md:gap-x-5 gap-x-[15px] gap-y-6 md:gap-y-10'>
-        {currentUser?.loveMovie.map((movie: any) => (
+        {dataNewMovie?.map((movie: any) => (
           <CardProduct
             data={movie}
             key={movie.id}
